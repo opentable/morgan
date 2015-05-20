@@ -702,6 +702,29 @@ describe('morgan()', function () {
       })
     })
   })
+  
+  describe('with stream option', function () {
+    it('should callback with line and token pairs', function (done) {
+      var server = createServer(':method :url', {
+        stream: {write: writeLog}
+      })
+
+      function writeLog(log, tokens) {
+        assert.equal(log, 'GET /first\n')
+        assert.deepEqual(tokens, {method: 'GET', url: '/first'})
+        server.close()
+        done()
+      }
+
+      server = server.listen()
+      request(server)
+      .get('/first')
+      .end(function (err, res) {
+        if (err) throw err
+      })
+    })
+  })
+  
 })
 
 function createLogger(format, opts) {
