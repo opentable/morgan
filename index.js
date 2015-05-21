@@ -132,7 +132,7 @@ exports = module.exports = function morgan(format, options) {
       }
 
       debug('log request');
-      stream.write(line + '\n', tokenPairs);
+      options.stream ? stream.write(line + '\n', tokenPairs) : stream.write(line + '\n');
     };
 
     // immediate
