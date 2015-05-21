@@ -70,6 +70,7 @@ exports = module.exports = function morgan(format, options) {
   // steam
   var buffer = options.buffer
   var stream = options.stream || process.stdout
+  var includeTokens = options.stream ? options.stream.includeTokens === true : false
 
   // buffering support
   if (buffer) {
@@ -132,7 +133,7 @@ exports = module.exports = function morgan(format, options) {
       }
 
       debug('log request');
-      options.stream ? stream.write(line + '\n', tokenPairs) : stream.write(line + '\n');
+      includeTokens ? stream.write(line + '\n', tokenPairs) : stream.write(line + '\n');
     };
 
     // immediate
